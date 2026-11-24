@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import { Routes, Route, NavLink, Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import Catalog from './pages/Catalog.jsx'
 import Detail from './pages/Detail.jsx'
 import Chat from './pages/Chat.jsx'
 
+const titles = { '/': 'Botani Mart', '/produk': 'Katalog', '/tentang': 'Tentang', '/asisten': 'Asisten AI' }
 const links = [['/', 'Beranda'], ['/produk', 'Katalog'], ['/tentang', 'Tentang'], ['/asisten', 'Asisten AI']]
 
 export default function App() {
   const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0); document.title = (titles[pathname] || 'Produk') + ' | Botani Mart' }, [pathname])
   const cls = ({ isActive }) => isActive ? 'text-green-700 font-semibold' : 'text-stone-600 hover:text-green-700'
   return (
     <div className="min-h-screen flex flex-col">
@@ -32,6 +35,7 @@ export default function App() {
           <Route path="*" element={<p className="p-10 text-center">Halaman tidak ditemukan.</p>} />
         </Routes>
       </main>
+      {pathname !== '/asisten' && <Link to="/asisten" className="fixed bottom-5 right-5 z-10 bg-green-700 hover:bg-green-800 text-white px-4 py-3 rounded-full shadow-lg text-sm font-semibold">💬 Tanya AI</Link>}
       <footer className="bg-green-900 text-green-100 text-sm text-center py-6">© 2026 Botani Mart — Informasi & katalog produk pertanian</footer>
     </div>
   )

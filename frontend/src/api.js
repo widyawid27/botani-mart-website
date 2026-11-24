@@ -1,4 +1,5 @@
-const j = (u, o) => fetch('/api' + u, o).then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
+const BASE = import.meta.env.VITE_API_URL || '/api'
+const j = (u, o) => fetch(BASE + u, o).then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
 export const getProducts = (p = {}) =>
   j('/products?' + new URLSearchParams(Object.entries(p).filter(([, v]) => v)))
 export const getProduct = s => j('/products/' + s)
